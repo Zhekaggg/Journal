@@ -43,6 +43,12 @@ const Journal = () => {
     handleDeleteStudent,
     deleteLastDay,
 
+    openImportModal,
+    handleFileChange,
+    handleImport,
+    importExcel,
+    importModalIsOpen,
+    closeImportModal 
 
   } = PocoFunctions();
   
@@ -139,6 +145,9 @@ const Journal = () => {
           <Button variant="contained" className="oco4" onClick={exportToExcel}>
               Экспорт в Excel
             </Button>
+            <Button variant="contained" className="oco5" onClick={openImportModal}>
+  Импорт Excel
+</Button>
 
           </div>
 
@@ -228,7 +237,33 @@ const Journal = () => {
         <Button  variant="outlined" onClick={closeDeleteModal}>Отмена</Button>
       </Modal>
 
-
+      <Modal
+        open={importModalIsOpen}
+        onClose={closeImportModal}
+        center
+        styles={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          },
+          modal: {
+            width: '80%',
+            maxWidth: '400px',
+            borderRadius: '8px',
+          },
+        }}
+      >
+        <h2>Выберите файл Excel и группу:</h2>
+        <input type="file" onChange={handleFileChange} />
+        <Select
+          options={Object.keys(data).map((group) => ({ value: group, label: group }))}
+          value={{ value: selectedGroup, label: selectedGroup }}
+          onChange={(selectedOption) => setSelectedGroup(selectedOption.value)}
+          components={animatedComponents}
+        />
+        <Button variant="outlined" onClick={handleImport}>
+          Импортировать
+        </Button>
+      </Modal>
     </div>
   );
 };
